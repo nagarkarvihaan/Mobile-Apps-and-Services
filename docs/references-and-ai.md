@@ -37,3 +37,13 @@ Student reflection and verification: TODO — write what you personally checked,
 - Output used or changed:
 - How I tested or verified it:
 - What I learned:
+
+## Apple — Passing Data with Bindings (September 7, 2026)
+
+Tutorial: https://developer.apple.com/tutorials/app-dev-training/passing-data-with-bindings
+
+Archive: https://developer.apple.com/tutorials/downloads/com.apple.app-dev-training/PassingDataWithBindings.zip
+
+Used the completed Scrumdinger project as the original sample for the assignment. Preserved Apple licenses and Swift source. Learning topics to explore: SwiftUI forms, state, and bindings that update meeting details. Student learning and device execution remain to be recorded after actually working through the sample.
+
+AI assistance: User requested remaining setup after completing Xcode first launch. Codex checked SDK/setup status, selected and imported the sample, inspected its editing flow, attempted builds, investigated sandbox errors, and drafted run/evidence instructions. No successful build, device run, or original app feature is claimed.

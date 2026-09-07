@@ -25,3 +25,13 @@
 - Evidence: screenshot captions, commit/PR/issue links:
 - AI assistance used and how I checked it:
 - Next step:
+
+## September 7, 2026 — Xcode setup and original sample import
+
+- User completed Xcode setup; first-launch check now passes and iOS 26.5 SDK is available.
+- Codex downloaded Apple's completed Passing Data with Bindings sample (Scrumdinger), preserving its source and licenses under `ios/Scrumdinger`.
+- This is an existing interactive sample, not student-authored app code. Root README remains minimal as requested.
+- Attempted unsigned iOS build: package cache writes initially failed. Granted cache access and redirected module cache into the workspace. Package resolution then failed with `sandbox-exec: sandbox_apply: Operation not permitted`.
+- Sandbox access to simulator/device services failed, and Xcode UI inspection timed out. No successful build or physical-device run has been verified.
+- Added `docs/ios-setup.md` with signing/run instructions and a before/after input demonstration to record.
+- Pending: user selects Apple signing team and iPhone, runs the sample in Xcode, and captures actual device evidence.
