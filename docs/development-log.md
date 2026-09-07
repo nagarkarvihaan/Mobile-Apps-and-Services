@@ -8,7 +8,9 @@
 - The default Git command failed because the Xcode license has not yet been accepted. The separate Command Line Tools Git executable worked (2.50.1).
 - GitHub CLI is installed but not logged in. Public repository cloning succeeded.
 - Codex prepared Swift/Xcode ignore rules, documentation, and task/PR templates.
-- Pending: open Xcode and complete first-run setup; invite partners once usernames arrive; select and run an existing sample; verify remote push access.
+- Verified ignore rules against build artifacts, user-specific Xcode files, and local secrets; Git whitespace checks passed.
+- Setup commit `641c752` was successfully pushed to GitHub using existing Git credentials, even though GitHub CLI is not signed in.
+- Pending: open Xcode and complete first-run setup; invite partners once usernames arrive; select and run an existing sample.
 - No app/device/backend testing has happened yet.
 
 ## Entry template — copy for each session
