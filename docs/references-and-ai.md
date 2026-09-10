@@ -1,5 +1,18 @@
 # References and AI assistance
 
+## FoodTracker implementation — September 10, 2026
+
+At Aaron's request, Codex implemented the supplied Phase 1 plan: a separate SwiftUI FoodTracker project, Flask/Gemini REST flow, editable nutrition estimates, shared in-memory meals, automated tests, GitHub Actions CI, Render deployment automation, and optional TestFlight signing/upload automation. The Apple tutorial source remains unchanged.
+
+References consulted for the implementation:
+
+- [Gemini structured outputs](https://ai.google.dev/gemini-api/docs/structured-output) and [Generate Content API](https://ai.google.dev/api/generate-content): JSON schema and image input; generated nutrition is also validated server-side.
+- [Gemini model lifecycle](https://ai.google.dev/gemini-api/docs/deprecations): checked the configurable default model.
+- [Render blueprint](https://render.com/docs/blueprint-spec), [runtime environment updates](https://api-docs.render.com/reference/update-env-var), and [deployment API](https://api-docs.render.com/reference/create-deploy): hosting configuration and deployment of the CI-tested SHA.
+- [Apple build uploads](https://developer.apple.com/help/app-store-connect/manage-builds/upload-builds) and [Xcode distribution](https://developer.apple.com/videos/play/wwdc2021/10204/): signing and App Store Connect upload setup.
+
+The new implementation and documentation were substantively generated with AI assistance. Students should review the code and record their own understanding, modifications, real-device demonstration, and partner contributions. Mocked tests do not establish a live Gemini, Render, or TestFlight integration.
+
 Add references as they are used, with URLs, purpose, and what you learned. Each student should distinguish their own use from a teammate's.
 
 ## Assignment brief
