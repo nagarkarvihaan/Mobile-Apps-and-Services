@@ -1,5 +1,7 @@
 # Run the initial iOS sample
 
+> This page documents the preserved Scrumdinger tutorial. The current app is **FoodTracker** at `ios/FoodTracker/FoodTracker.xcodeproj`; use the [root README](../README.md) for its setup and [acceptance checks](foodtracker-acceptance.md) for testing.
+
 ## Source and scope
 
 This is Apple's completed **Passing Data with Bindings** tutorial project, part of Scrumdinger. Its meeting editor accepts a title, duration, theme, and attendee names. It is the existing sample for the assignment, not an original student implementation. Source files and Apple license notices are preserved.
