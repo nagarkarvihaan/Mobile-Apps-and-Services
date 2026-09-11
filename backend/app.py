@@ -42,7 +42,9 @@ def create_app(config=None, repository=None, analyzer=None):
     app.config.update(MAX_CONTENT_LENGTH=6 * 1024 * 1024, ANALYSIS_LIMIT_PER_MINUTE=10)
     app.config.update(config or {})
     repository = repository or InMemoryMealRepository()
-    analyzer = analyzer or GeminiService(os.getenv("GEMINI_API_KEY"), os.getenv("GEMINI_MODEL", "gemini-2.5-flash"))
+    analyzer = analyzer or GeminiService(
+        os.getenv("GEMINI_API_KEY"), os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
+    )
     analysis_times = deque()
     analysis_lock = Lock()
 

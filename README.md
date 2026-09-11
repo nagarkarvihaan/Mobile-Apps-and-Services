@@ -39,7 +39,7 @@ backend/.venv/bin/python -m pip install -r backend/requirements-dev.txt
 cp backend/.env.example backend/.env
 ```
 
-Set your real `GEMINI_API_KEY` in `backend/.env`. That file is ignored by Git. The existing GitHub secret `GEMINI_API_KEY_CS4261` is available only to workflows, not your local shell. `GEMINI_MODEL` defaults to `gemini-2.5-flash` and can be changed independently.
+Set your real `GEMINI_API_KEY` in `backend/.env`. That file is ignored by Git. The existing GitHub secret `GEMINI_API_KEY_CS4261` is available only to workflows, not your local shell. `GEMINI_MODEL` defaults to `gemini-3.5-flash-lite` and can be changed independently.
 
 ```sh
 cd backend
