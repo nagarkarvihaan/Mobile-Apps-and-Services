@@ -64,3 +64,11 @@ Gemini 2.5 Flash returned HTTP 404 with the configured key. Set Azure's `GEMINI_
 - Public `/api/analyze-meal` with a generated blank JPEG returned HTTP 422 and “No food was found,” confirming a live request through Azure to Gemini and the structured response handling. A real food photo and nutrition accuracy still need testing on the user's iPhone.
 - No Mac-local server is needed. The current FoodTracker build uses the Azure origin automatically. Disable Wi-Fi and test on cellular to demonstrate independence from the Mac (allow cellular data for the app).
 - Capture phone Settings, real meal analysis/edit/save/history, Azure Overview, and health JSON as assignment evidence.
+
+## Azure-only release — September 12
+
+Deployment `8c8d2e95-26d2-41d9-9cad-b59bcd7963aa` completed successfully (Azure status 4). This upload includes Aaron's updated Gemini error classification and redacted logging. Live HTTPS health returned 200 and the blank-image Gemini check returned the expected 422.
+
+The app now uses a single Azure endpoint directly, ignoring any previously saved localhost address. Settings displays the cloud connection rather than asking for a URL. Rebuild/install the iOS app once to receive this change. Removed Render configuration/deploy scripts; CI retains builds/tests only. Use `bash scripts/deploy_azure.sh` to deploy future backend changes explicitly.
+
+Validation: 39 backend tests, 10 Swift shared-logic tests, three signing automation tests, Python lint, shell syntax, edited Swift screen parsing, and Git whitespace checks passed. A complete Xcode device build and real-food phone test were not performed in this release; these remain user acceptance steps. Persistent storage is still pending.
