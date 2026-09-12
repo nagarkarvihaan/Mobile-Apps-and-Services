@@ -35,3 +35,9 @@
 - Sandbox access to simulator/device services failed, and Xcode UI inspection timed out. No successful build or physical-device run has been verified.
 - Added `docs/ios-setup.md` with signing/run instructions and a before/after input demonstration to record.
 - Pending: user selects Apple signing team and iPhone, runs the sample in Xcode, and captures actual device evidence.
+
+## September 12 — Azure backend online
+
+Vihaan created Azure for Students resources and upgraded Free F1 to B1 after quota errors. Codex configured/uploaded the backend and investigated runtime logs. The startup failure was caused by nested single quotes in Azure's launcher; double quotes around the Flask factory corrected it. Gemini 2.5 Flash returned 404, so Azure now selects gemini-3.5-flash-lite, matching Aaron's model choice without merging his branch.
+
+All 35 local backend tests passed. Live HTTPS health, create meal, idempotent save retry, and history retrieval passed. The generated blank-image analysis returned the expected 422 through live Gemini. Restart cleared the test meal; storage is still temporary. Real-food analysis and the physical iPhone's cloud connection remain for Vihaan to demonstrate. Packaging script and deployment instructions are on Vihaan. No API key was committed or printed.
