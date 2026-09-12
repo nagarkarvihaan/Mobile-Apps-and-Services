@@ -27,7 +27,7 @@ Set `GEMINI_API_KEY` in the Web App's environment variables. Never commit its va
 
 ## Phone test and evidence
 
-Open `/health` in a browser. Enter the origin above (without `/health`) in FoodTracker Settings and tap Connect. Test photo analysis, edit/save a meal, and retrieve History on the physical iPhone. Capture the successful deployment, health JSON, and app results with captions. Do not claim device tests until performed.
+Open `/health` in a browser. Rebuild the current FoodTracker app; it connects to the Azure origin automatically. Test photo analysis, edit/save a meal, and retrieve History on the physical iPhone. Capture the successful deployment, health JSON, and app results with captions. Do not claim device tests until performed.
 
 ## Limitations
 
@@ -62,5 +62,5 @@ Gemini 2.5 Flash returned HTTP 404 with the configured key. Set Azure's `GEMINI_
 - After the model-setting restart, public `/health` returned HTTP 200 with `{"status":"ok","storage":"memory"}`.
 - Public `/api/meals` returned HTTP 200 with an empty history after restart, confirming the documented memory-only limitation and clearing the test meal.
 - Public `/api/analyze-meal` with a generated blank JPEG returned HTTP 422 and “No food was found,” confirming a live request through Azure to Gemini and the structured response handling. A real food photo and nutrition accuracy still need testing on the user's iPhone.
-- No Mac-local server is needed. Set FoodTracker Settings to the HTTPS origin above. Disable Wi-Fi and test on cellular to demonstrate independence from the Mac (allow cellular data for the app).
+- No Mac-local server is needed. The current FoodTracker build uses the Azure origin automatically. Disable Wi-Fi and test on cellular to demonstrate independence from the Mac (allow cellular data for the app).
 - Capture phone Settings, real meal analysis/edit/save/history, Azure Overview, and health JSON as assignment evidence.

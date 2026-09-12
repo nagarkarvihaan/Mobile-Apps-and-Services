@@ -1,8 +1,8 @@
-name: Build, test, and deploy
+name: Build and test
 
 on:
   push:
-    branches: [main, Aaron_branch]
+    branches: [main, Vihaan, Aaron_branch]
   pull_request:
   workflow_dispatch:
 
@@ -99,26 +99,3 @@ jobs:
             build/FoodTracker-unsigned.zip
             build/FoodTrackerTests.xcresult
           retention-days: 14
-
-  deploy:
-    name: Deploy backend to Render
-    needs: [backend, ios]
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.RENDER_DEPLOY_ENABLED == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    environment: production
-    concurrency:
-      group: render-production
-      cancel-in-progress: false
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Configure Gemini and deploy the tested commit
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY_CS4261 }}
-          DEPLOY_COMMIT: ${{ github.sha }}
-        run: python scripts/deploy_render.py

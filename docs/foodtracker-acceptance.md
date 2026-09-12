@@ -2,7 +2,7 @@
 
 Record actual outcomes and screenshots after running these on a physical iPhone. Automated tests do not establish device execution, live AI accuracy, hosting deployment, or partner collaboration.
 
-1. Launch FoodTracker, configure the backend, and confirm Today and History load.
+1. Launch the updated FoodTracker and confirm Today and History load automatically from Azure, including after previously saving a localhost URL.
 2. Tap Take Photo. Allow camera access, photograph food, and check the preview. Cancel the camera once and ensure the app remains usable.
 3. Choose a library image, including a large/rotated HEIC photo. Check orientation and preview. PhotosPicker does not require full-library permission.
 4. Estimate nutrition. Confirm loading feedback and an editable result. Edit the meal name and all four numbers. Save and verify the edited values in Today and History.
@@ -19,4 +19,4 @@ The implementation session verified 35 backend API/provider tests, 10 Swift shar
 
 The local Xcode 26.6 installation has iOS SDK 26.5 but no simulator runtimes. Full Xcode builds currently stop during asset compilation/destination selection because the platform runtime is missing. Install it from Xcode → Settings → Components, then build and run the app. Separate Swift compiler checks can validate the sources but do not replace a complete simulator/device build.
 
-Live Gemini calls, Render deployment, signed/TestFlight upload, and physical-device interaction require account/device setup and remain to be demonstrated.
+Update: Azure deployment and a live Gemini blank-image request were verified September 12; see azure-deployment.md. Real-food and physical-device acceptance still need to be demonstrated.

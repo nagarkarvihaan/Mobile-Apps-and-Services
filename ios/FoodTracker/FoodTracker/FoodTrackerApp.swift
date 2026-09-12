@@ -2,7 +2,7 @@ import SwiftUI
 
 @main
 struct FoodTrackerApp: App {
-    @AppStorage("backendURL") private var backendURL = ""
+    private let backendURL = APIService.productionURL
     @State private var home = HomeViewModel()
     @Environment(\.scenePhase) private var scenePhase
 

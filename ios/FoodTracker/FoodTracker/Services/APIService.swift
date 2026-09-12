@@ -20,6 +20,8 @@ enum APIError: LocalizedError {
 }
 
 struct APIService: MealAPI {
+    static let productionURL = "https://foodtracker-api-gmcnbzepc4a4f4h5.canadacentral-01.azurewebsites.net"
+
     private struct ErrorEnvelope: Decodable {
         struct Detail: Decodable { let message: String }
         let error: Detail
