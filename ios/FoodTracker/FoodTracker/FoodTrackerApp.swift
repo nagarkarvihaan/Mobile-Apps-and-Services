@@ -2,7 +2,6 @@ import SwiftUI
 
 @main
 struct FoodTrackerApp: App {
-    private let backendURL = APIService.productionURL
     @State private var home = HomeViewModel()
     @Environment(\.scenePhase) private var scenePhase
 
@@ -14,10 +13,7 @@ struct FoodTrackerApp: App {
                 SettingsView().tabItem { Label("Settings", systemImage: "gearshape") }
             }
             .tint(.teal)
-            .task(id: backendURL) {
-                home.configure(url: backendURL)
-                await home.refresh()
-            }
+            .task { await home.refresh() }
             .onChange(of: scenePhase) { _, phase in
                 if phase == .active { Task { await home.refresh() } }
             }

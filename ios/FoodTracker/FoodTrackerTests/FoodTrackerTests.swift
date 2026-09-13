@@ -91,15 +91,12 @@ final class FoodTrackerTests: XCTestCase {
         XCTAssertNil(model.errorMessage)
     }
 
-    func testRecordDoesNotDuplicateAndChangingServerClearsHistory() {
+    func testRecordDoesNotDuplicateMeals() {
         let model = HomeViewModel()
         let lunch = meal()
         model.record(lunch)
         model.record(lunch)
         XCTAssertEqual(model.meals.count, 1)
-        model.configure(url: "https://example.com")
-        XCTAssertTrue(model.meals.isEmpty)
-        XCTAssertNotNil(model.api)
     }
 
     func testRefreshStartedBeforeSaveCannotOverwriteSavedMeal() async {
@@ -149,13 +146,13 @@ final class FoodTrackerTests: XCTestCase {
         XCTAssertEqual(drafts, [sampleDraft, sampleDraft])
     }
 
-    func testURLValidation() {
-        XCTAssertNotNil(APIService.configuredURL("https://example.com"))
-        XCTAssertNil(APIService.configuredURL("example.com"))
-        XCTAssertNil(APIService.configuredURL("https://user:password@example.com"))
-        XCTAssertNil(APIService.configuredURL("https://example.com/api"))
-        XCTAssertNil(APIService.configuredURL("https://example.com?key=secret"))
-        XCTAssertNil(APIService.configuredURL("file:///tmp/file"))
+    func testProductionBackendUsesAzureHTTPSOrigin() {
+        XCTAssertEqual(APIService.productionBaseURL.scheme, "https")
+        XCTAssertEqual(
+            APIService.productionBaseURL.host,
+            "foodtracker-api-gmcnbzepc4a4f4h5.canadacentral-01.azurewebsites.net"
+        )
+        XCTAssertEqual(APIService.productionBaseURL.path, "")
     }
 
     func testBackendJSONContractAndMultipartUpload() async throws {

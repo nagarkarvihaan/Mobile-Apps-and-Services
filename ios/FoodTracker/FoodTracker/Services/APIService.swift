@@ -7,12 +7,11 @@ protocol MealAPI: Sendable {
 }
 
 enum APIError: LocalizedError {
-    case configuration, invalidResponse
+    case invalidResponse
     case server(String)
 
     var errorDescription: String? {
         switch self {
-        case .configuration: "Set a valid backend URL in Settings to connect."
         case .invalidResponse: "The server returned an unreadable response. Please try again."
         case .server(let message): message
         }
@@ -20,7 +19,10 @@ enum APIError: LocalizedError {
 }
 
 struct APIService: MealAPI {
-    static let productionURL = "https://foodtracker-api-gmcnbzepc4a4f4h5.canadacentral-01.azurewebsites.net"
+    static let productionBaseURL = URL(
+        string: "https://foodtracker-api-gmcnbzepc4a4f4h5.canadacentral-01.azurewebsites.net"
+    )!
+    static let production = APIService(baseURL: productionBaseURL)
 
     private struct ErrorEnvelope: Decodable {
         struct Detail: Decodable { let message: String }
@@ -33,19 +35,6 @@ struct APIService: MealAPI {
     init(baseURL: URL, session: URLSession = .shared) {
         self.baseURL = baseURL
         self.session = session
-    }
-
-    static func configuredURL(_ value: String) -> URL? {
-        guard let url = URL(string: value.trimmingCharacters(in: .whitespacesAndNewlines)),
-              let host = url.host, !host.isEmpty,
-              url.user == nil, url.password == nil, url.query == nil, url.fragment == nil,
-              url.path.isEmpty || url.path == "/" else { return nil }
-        if url.scheme == "https" { return url }
-        #if DEBUG
-        // HTTP is available only for local development builds.
-        if url.scheme == "http" { return url }
-        #endif
-        return nil
     }
 
     func fetchMeals() async throws -> [Meal] {
