@@ -6,18 +6,10 @@ final class HomeViewModel {
     private(set) var meals: [Meal] = []
     private(set) var isLoading = false
     var errorMessage: String?
-    private(set) var api: (any MealAPI)?
+    let api: any MealAPI
     private var generation = 0
 
-    init(api: (any MealAPI)? = nil) { self.api = api }
-
-    func configure(url: String) {
-        generation += 1
-        api = APIService.configuredURL(url).map { APIService(baseURL: $0) }
-        meals = []
-        errorMessage = nil
-        isLoading = false
-    }
+    init(api: any MealAPI = APIService.production) { self.api = api }
 
     func meals(on date: Date, calendar: Calendar = .current) -> [Meal] {
         meals.filter { calendar.isDate($0.createdAt, inSameDayAs: date) }
@@ -25,7 +17,6 @@ final class HomeViewModel {
 
     func refresh() async {
         guard !isLoading else { return }
-        guard let api else { errorMessage = APIError.configuration.localizedDescription; return }
         let currentGeneration = generation
         isLoading = true
         errorMessage = nil

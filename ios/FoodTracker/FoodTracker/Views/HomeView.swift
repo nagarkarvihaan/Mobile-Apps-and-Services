@@ -20,7 +20,7 @@ struct HomeView: View {
                             Label("Add Meal", systemImage: "plus.circle.fill")
                                 .font(.headline).frame(maxWidth: .infinity).padding(.vertical, 8)
                         }
-                        .buttonStyle(.borderedProminent).disabled(model.api == nil)
+                        .buttonStyle(.borderedProminent)
                         if let error = model.errorMessage {
                             ErrorNotice(message: error)
                             Button("Try Again") { Task { await model.refresh() } }
@@ -45,7 +45,7 @@ struct HomeView: View {
             }
             .navigationTitle("Today")
             .sheet(isPresented: $showingAddMeal, onDismiss: { Task { await model.refresh() } }) {
-                if let api = model.api { AddMealView(api: api, onSave: model.record) }
+                AddMealView(api: model.api, onSave: model.record)
             }
         }
     }

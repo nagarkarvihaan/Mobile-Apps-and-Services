@@ -216,10 +216,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 3W3ZAS5CWP;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Configuration/Debug-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = FoodTracker;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Take a photo of your meal to estimate nutrition.";
-				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "Connect to your FoodTracker development server on your local network.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
