@@ -11,7 +11,7 @@ let package = Package(
         .target(
             name: "FoodTracker",
             path: "FoodTracker",
-            exclude: ["FoodTrackerApp.swift", "Assets.xcassets", "Components", "Views", "Services/ImageService.swift"],
+            exclude: ["FoodTrackerApp.swift", "Assets.xcassets", "Auth", "Components", "Views", "Services/ImageService.swift"],
             sources: ["Models", "ViewModels", "Services/APIService.swift"]
         ),
         .testTarget(name: "FoodTrackerTests", dependencies: ["FoodTracker"], path: "FoodTrackerTests"),

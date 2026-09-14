@@ -1,9 +1,15 @@
 import SwiftUI
 
 struct SettingsView: View {
+    let auth: AuthModel
+
     var body: some View {
         NavigationStack {
             Form {
+                Section("Account") {
+                    if let email = auth.email { Text(email) }
+                    Button("Log Out", role: .destructive) { auth.signOut() }
+                }
                 Section("Backend connection") {
                     Label("Azure cloud service", systemImage: "cloud")
                     Text("FoodTracker connects automatically. Your Mac does not need to be running.")
