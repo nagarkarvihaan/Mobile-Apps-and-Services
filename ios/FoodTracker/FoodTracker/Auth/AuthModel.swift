@@ -3,8 +3,8 @@ import Observation
 
 // Public project credentials only. Never put a service-role or secret key here.
 enum SupabaseConfig {
-    static let projectURL = "https://YOUR_PROJECT.supabase.co"
-    static let publishableKey = "YOUR_PUBLISHABLE_KEY"
+    static let projectURL = "https://occtpttbvixhsvtfhkmq.supabase.co"
+    static let publishableKey = "sb_publishable_35t45yQE8GD0OHFPiVg3RQ_b9fIyfrV"
 }
 
 @MainActor @Observable
