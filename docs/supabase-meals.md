@@ -8,7 +8,9 @@
 4. Rebuild the iOS app and log in. Save a meal, refresh History, and verify its row in Supabase. Restart the backend and confirm the meal remains.
 5. Log out and sign in with a second account. The first account's meals must not appear. Save another meal, then return to the first account and verify isolation in both directions.
 
-Flask validates the bearer token with Supabase Auth and forwards it to the Data API using the publishable key. RLS remains active; no service-role key is required. Every production API route requires authentication. Missing Supabase configuration fails closed instead of storing shared meals in memory. Existing app installations without authentication must be updated.
+Flask validates the bearer token with Supabase Auth and forwards it to the Data API using the publishable key. RLS remains active; no service-role key is required. Every production API route requires authentication. Missing Supabase configuration stops backend startup and names the missing variables without logging their values. Existing app installations without authentication must be updated.
+
+Production configuration lives in Azure App Service environment variables. Set `GEMINI_API_KEY` there for photo analysis; `GEMINI_MODEL` defaults to `gemini-3.5-flash-lite`. For local backend development, put the same settings in an ignored `backend/.env` file. No template values are loaded or used by the application.
 
 Only the test configuration uses in-memory storage. Saving uses a per-user request ID to keep retries from creating duplicate meals. Dates currently represent the time saved, displayed in the phone's local timezone. No images or image URLs are inserted into the table.
 

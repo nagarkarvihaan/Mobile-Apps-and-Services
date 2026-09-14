@@ -42,12 +42,17 @@ def create_app(config=None, repository=None, analyzer=None):
     app = Flask(__name__)
     app.config.update(MAX_CONTENT_LENGTH=6 * 1024 * 1024, ANALYSIS_LIMIT_PER_MINUTE=10)
     app.config.update(config or {})
-    repository = repository or InMemoryMealRepository()
+    if app.testing:
+        repository = repository or InMemoryMealRepository()
     supabase = None
     if not app.testing:
         url, key = os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_PUBLISHABLE_KEY")
-        if url and key:
-            supabase = SupabaseService(url, key)
+        missing = [name for name, value in (
+            ("SUPABASE_URL", url), ("SUPABASE_PUBLISHABLE_KEY", key)
+        ) if not value or not value.strip()]
+        if missing:
+            raise RuntimeError("Missing required environment variables: " + ", ".join(missing))
+        supabase = SupabaseService(url, key)
     analyzer = analyzer or GeminiService(
         os.getenv("GEMINI_API_KEY"), os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
     )
@@ -57,8 +62,6 @@ def create_app(config=None, repository=None, analyzer=None):
     @app.before_request
     def authenticate():
         if request.path.startswith('/api/') and not app.testing:
-            if supabase is None:
-                raise APIError('Supabase storage is not configured on the server.', 503)
             g.token, g.user_id = supabase.authenticate(request.headers.get('Authorization', ''))
 
     @app.errorhandler(APIError)
@@ -86,7 +89,7 @@ def create_app(config=None, repository=None, analyzer=None):
 
     @app.get("/health")
     def health():
-        return jsonify(status="ok", storage="supabase" if supabase else ("memory" if app.testing else "unconfigured"))
+        return jsonify(status="ok", storage="memory" if app.testing else "supabase")
 
     @app.post("/api/analyze-meal")
     def analyze():

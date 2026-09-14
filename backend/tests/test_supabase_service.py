@@ -63,5 +63,5 @@ def test_production_missing_config_fails_closed(monkeypatch):
     monkeypatch.delenv('SUPABASE_URL', raising=False)
     monkeypatch.delenv('SUPABASE_PUBLISHABLE_KEY', raising=False)
     monkeypatch.setattr('app.load_dotenv', lambda: None)
-    client = create_app(analyzer=Mock()).test_client()
-    assert client.get('/api/meals').status_code == 503
+    with pytest.raises(RuntimeError, match='SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY'):
+        create_app(analyzer=Mock())

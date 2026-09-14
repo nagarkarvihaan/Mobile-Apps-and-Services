@@ -22,10 +22,9 @@ final class AuthModel {
         guard !isLoading else { return }
         errorMessage = nil
         notice = nil
-        guard !SupabaseConfig.projectURL.contains("YOUR_PROJECT"),
-              !SupabaseConfig.publishableKey.contains("YOUR_PUBLISHABLE_KEY"),
+        guard !SupabaseConfig.publishableKey.isEmpty,
               let baseURL = URL(string: SupabaseConfig.projectURL), baseURL.scheme == "https" else {
-            errorMessage = "Add your Supabase project URL and publishable key in AuthModel.swift to connect login."
+            errorMessage = "Login is unavailable because the app configuration is invalid."
             return
         }
         isLoading = true
