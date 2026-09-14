@@ -31,7 +31,7 @@ Open `/health` in a browser. Rebuild the current FoodTracker app; it connects to
 
 ## Limitations
 
-This deployment initially uses shared in-memory storage; restarts erase meals. Persistent storage and per-user authentication are not implemented. Hosting alone does not establish that the full assignment is complete.
+The current deployment uses Supabase for authenticated, per-user meal storage. Saved meals survived a live Azure restart test on September 14. The iOS app keeps login sessions only in memory, so users must sign in again after reopening. Historical entries below describe earlier deployment states. Hosting alone does not establish that the full assignment is complete.
 
 ## References and assistance
 
@@ -72,3 +72,21 @@ Deployment `8c8d2e95-26d2-41d9-9cad-b59bcd7963aa` completed successfully (Azure 
 The app now uses a single Azure endpoint directly, ignoring any previously saved localhost address. Settings displays the cloud connection rather than asking for a URL. Rebuild/install the iOS app once to receive this change. Removed Render configuration/deploy scripts; CI retains builds/tests only. Use `bash scripts/deploy_azure.sh` to deploy future backend changes explicitly.
 
 Validation: 39 backend tests, 10 Swift shared-logic tests, three signing automation tests, Python lint, shell syntax, edited Swift screen parsing, and Git whitespace checks passed. A complete Xcode device build and real-food phone test were not performed in this release; these remain user acceptance steps. Persistent storage is still pending.
+
+
+## Supabase deployment and persistence verification — September 14, 2026
+
+The database and login implementation reached main through PR #4. Commit `17b7b00` added `services/supabase_service.py` to the explicit Azure package list. Deployment `0059b0be-84b0-4b30-9814-ec0f748040ba` completed with runtime success.
+
+Azure requires `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY`, as described in [Supabase setup](supabase-meals.md). An invalid Azure key caused an upstream 401 that the backend misleadingly reported as an expired session. The setting was corrected to the project's valid publishable key and Azure was restarted. No credentials are included in this document.
+
+Codex performed these live checks using a dedicated account supplied locally by Vihaan:
+
+- Login and meal retrieval returned HTTP 200.
+- Saving a labeled test meal returned HTTP 201.
+- Retrying with the same idempotency key returned HTTP 200 and the same meal ID.
+- The saved meal appeared in the history response.
+- After an explicit Azure restart and fresh login, the same meal was retrieved successfully.
+- Health reported `{"status":"ok","storage":"supabase"}`.
+
+The test meal is named “Persistence verification (test meal)” and remains in the test account. Automated validation passed 44 backend tests, 10 shared Swift logic tests, and Python lint. Vihaan reported account creation and login working in the app. Cross-account isolation and the complete physical-phone photo workflow were not independently verified in this session. These checks demonstrate saved-meal persistence, not persistent login sessions.
