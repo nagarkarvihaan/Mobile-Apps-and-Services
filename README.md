@@ -12,7 +12,7 @@ Production: https://foodtracker-api-gmcnbzepc4a4f4h5.canadacentral-01.azurewebsi
 
 [Deployment instructions](docs/deployment.md) · [Azure setup and evidence](docs/azure-deployment.md)
 
-Meal history is currently shared and temporary; restarting the backend clears it. Persistent storage remains to be implemented.
+Private meal storage is implemented with Supabase Auth and row-level security. Follow [Supabase meal setup](docs/supabase-meals.md) to configure Azure and deploy this version. Production meal requests require login and configured Supabase storage; in-memory storage is used only by tests.
 
 ## Tests
 

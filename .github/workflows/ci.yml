@@ -35,11 +35,24 @@ jobs:
         run: docker build --tag foodtracker-api:test backend
       - name: Smoke test container
         run: |
-          docker run --detach --name foodtracker-api --publish 8000:8000 foodtracker-api:test
+          # This smoke test checks startup and authentication enforcement without
+          # connecting to a live database or requiring credentials on pull requests.
+          docker run --detach --name foodtracker-api --publish 8000:8000 \
+            --env SUPABASE_URL=https://supabase.invalid \
+            --env SUPABASE_PUBLISHABLE_KEY=ci-smoke-test \
+            foodtracker-api:test
           trap 'docker logs foodtracker-api; docker stop foodtracker-api' EXIT
           for attempt in $(seq 1 20); do
             if curl --fail --silent http://localhost:8000/health; then
-              curl --fail --silent http://localhost:8000/api/meals
+              for endpoint in meals analyze-meal; do
+                status=$(curl --silent --show-error --output /tmp/auth-response.json \
+                  --write-out '%{http_code}' "http://localhost:8000/api/$endpoint")
+                if [ "$status" != "401" ]; then
+                  echo "Expected unauthenticated $endpoint request to return 401; got $status"
+                  cat /tmp/auth-response.json
+                  exit 1
+                fi
+              done
               exit 0
             fi
             sleep 2
