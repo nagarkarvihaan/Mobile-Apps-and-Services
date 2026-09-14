@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('output', type=Path)
 args = parser.parse_args()
 files = ['app.py', 'domain.py', 'gunicorn.conf.py', 'requirements.txt',
-         'services/gemini_service.py']
+         'services/gemini_service.py', 'services/supabase_service.py']
 args.output.parent.mkdir(parents=True, exist_ok=True)
 with zipfile.ZipFile(args.output, 'w', zipfile.ZIP_DEFLATED) as archive:
     for name in files:
