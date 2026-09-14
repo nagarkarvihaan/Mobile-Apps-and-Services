@@ -31,10 +31,12 @@ struct APIService: MealAPI {
 
     let baseURL: URL
     private let session: URLSession
+    private let accessToken: String?
 
-    init(baseURL: URL, session: URLSession = .shared) {
+    init(baseURL: URL, session: URLSession = .shared, accessToken: String? = nil) {
         self.baseURL = baseURL
         self.session = session
+        self.accessToken = accessToken
     }
 
     func fetchMeals() async throws -> [Meal] {
@@ -68,6 +70,7 @@ struct APIService: MealAPI {
         request.timeoutInterval = 75
         request.cachePolicy = .reloadIgnoringLocalCacheData
         request.setValue("application/json", forHTTPHeaderField: "Accept")
+        if let accessToken { request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization") }
         return request
     }
 

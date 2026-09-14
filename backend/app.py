@@ -7,12 +7,13 @@ from threading import Lock
 from uuid import UUID, uuid4
 
 from dotenv import load_dotenv
-from flask import Flask, jsonify, request
+from flask import Flask, g, jsonify, request
 from PIL import Image, ImageOps, UnidentifiedImageError
 from werkzeug.exceptions import HTTPException
 
 from domain import APIError, InMemoryMealRepository, validate_meal
 from services.gemini_service import GeminiService
+from services.supabase_service import SupabaseService
 
 
 def normalized_image(data):
@@ -42,11 +43,23 @@ def create_app(config=None, repository=None, analyzer=None):
     app.config.update(MAX_CONTENT_LENGTH=6 * 1024 * 1024, ANALYSIS_LIMIT_PER_MINUTE=10)
     app.config.update(config or {})
     repository = repository or InMemoryMealRepository()
+    supabase = None
+    if not app.testing:
+        url, key = os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_PUBLISHABLE_KEY")
+        if url and key:
+            supabase = SupabaseService(url, key)
     analyzer = analyzer or GeminiService(
         os.getenv("GEMINI_API_KEY"), os.getenv("GEMINI_MODEL", "gemini-3.5-flash-lite")
     )
     analysis_times = deque()
     analysis_lock = Lock()
+
+    @app.before_request
+    def authenticate():
+        if request.path.startswith('/api/') and not app.testing:
+            if supabase is None:
+                raise APIError('Supabase storage is not configured on the server.', 503)
+            g.token, g.user_id = supabase.authenticate(request.headers.get('Authorization', ''))
 
     @app.errorhandler(APIError)
     def api_error(error):
@@ -73,7 +86,7 @@ def create_app(config=None, repository=None, analyzer=None):
 
     @app.get("/health")
     def health():
-        return jsonify(status="ok", storage="memory")
+        return jsonify(status="ok", storage="supabase" if supabase else ("memory" if app.testing else "unconfigured"))
 
     @app.post("/api/analyze-meal")
     def analyze():
@@ -99,11 +112,12 @@ def create_app(config=None, repository=None, analyzer=None):
             request_id = str(UUID(request_id))
         except ValueError:
             raise APIError("Idempotency-Key must be a UUID.") from None
-        saved, created = repository.save(meal, request_id)
+        saved, created = (supabase.save(meal, request_id, g.token, g.user_id) if supabase
+                          else repository.save(meal, request_id))
         return jsonify(saved), 201 if created else 200
 
     @app.get("/api/meals")
     def meals():
-        return jsonify(meals=repository.list())
+        return jsonify(meals=supabase.list(g.token, g.user_id) if supabase else repository.list())
 
     return app

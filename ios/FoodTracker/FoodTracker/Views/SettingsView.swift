@@ -16,7 +16,7 @@ struct SettingsView: View {
                         .foregroundStyle(.secondary)
                 }
                 Section("About your data") {
-                    Text("This version uses a shared meal history. Meals are held temporarily and disappear when the server restarts.")
+                    Text("Saved meals belong to your account and are stored in Supabase. Photos are not included in meal history.")
                     Text("Photos are sent to our server and Google Gemini for analysis. FoodTracker does not save your photos.")
                     Text("Nutrition values are AI estimates. Review portion sizes and edit the numbers before saving.")
                 }

@@ -7,6 +7,6 @@
 
 This first step uses the Supabase Auth REST API with email and password. Passwords are not saved. Sessions are held in memory, so restarting the app requires login again. Expired sessions are cleared when the app returns to the foreground. Persistent sessions and password recovery are deferred.
 
-Meal endpoints still use the existing shared, temporary backend repository. Login does **not** yet make meals private. The next step is verifying bearer tokens in Flask and storing meals with user ownership in Supabase before treating meal history as private.
+Meal endpoints now verify bearer tokens in Flask and forward the user's token to Supabase for owner-scoped storage. Complete [meal storage setup](supabase-meals.md), including deployment, before testing private history against Azure.
 
 Reference: https://supabase.com/docs/guides/auth/passwords

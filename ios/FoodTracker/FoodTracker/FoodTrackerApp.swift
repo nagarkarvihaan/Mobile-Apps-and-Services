@@ -22,6 +22,13 @@ private struct SignedInView: View {
     @State private var home = HomeViewModel()
     @Environment(\.scenePhase) private var scenePhase
 
+    init(auth: AuthModel) {
+        self.auth = auth
+        _home = State(initialValue: HomeViewModel(api: APIService(
+            baseURL: APIService.productionBaseURL, accessToken: auth.accessToken
+        )))
+    }
+
     var body: some View {
         TabView {
             HomeView(model: home).tabItem { Label("Today", systemImage: "sun.max") }
